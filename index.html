@@ -9,30 +9,58 @@
 <body>
 
     <div id="app">
-        {{message}}
+        <h1>{{message.toUpperCase()}}</h1>
+        Lucky Number : {{lucky_number}}
+
+        <hr>
+        {{arr}}
         <br>
-        {{xyz}} hello
+        {{userProfile}}
+
+        {{change_value()}}
     </div>
 
 </body>
 <script>
-    const { createApp } = Vue;
+    const { createApp, ref, reactive } = Vue;
     // Look at the object on the right (Vue), find the key named createApp, and assign its value to a new constant named createApp.
 
     createApp({
 
         setup() {
-            let xyz = 100
-            const message = "Hi How are you"
+            let lucky_number = 100
+            let message = "Hi How are you"
+            let arr = [1,2,3,4,5]
+            const userProfile = reactive({
+                username: 'JohnDoe',
+                email: 'john@example.com',
+                preferences: {
+                    theme: 'dark',
+                    notifications: true
+                }
+            });
+
+            function change_value() {
+                setTimeout( () => {
+                    lucky_number = lucky_number + 5;
+                    message.value = message.value + "9";
+                    arr.push(arr[arr.length-1]+1)
+                    userProfile.username = userProfile.username + "9"
+                    userProfile.preferences.theme = userProfile.preferences.theme + "9"
+
+                },20000)
+            }
+
             return {
                 message,
-                xyz
+                lucky_number,
+                change_value,
+                arr,
+                userProfile
             }
         }
 
     }).mount("#app")
-
-
 
 </script>
 </html>
