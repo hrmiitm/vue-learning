@@ -17,6 +17,13 @@
         <hr>
         <ul>
             <h1>Lucky Number: {{luckyNumbers[luckyNumbers.length-1]}}</h1>
+
+            <h2 v-show="luckyNumbers[6]%5 === 0">Divisible by 5 by vshow</h2>
+            <h2 v-if="luckyNumbers[6]%5 === 0">Divisible by 5</h2>
+            <h2 v-else-if="luckyNumbers[6]%4 === 0">Divisible by 4</h2>
+            <h2 v-else-if="luckyNumbers[6]%3 === 0">Divisible by 3</h2>
+            <h2 v-else>HI</h2>
+
             <li v-for="(p,i) in projects" :key="p.name">
                 <span>{{i}}</span>
                 {{ p.name }} 
@@ -26,6 +33,12 @@
                 </ul>
             </li>
         </ul>
+
+        <hr>
+        <p v-html="getMyHeading()"></p>
+        <a v-bind:href="randomSite">RandomSite</a>
+
+
 
     </div>
     
@@ -46,6 +59,7 @@ createApp({
             {name: "Drone Driver", author: "Vivek"},
             {name: "Maggie Maker", author: "Prins"},
         ])
+        let randomSite = reactive("https://www.google.com");
 
         function shuffleProjects() {
             setInterval(() => {
@@ -55,14 +69,20 @@ createApp({
             setInterval(() => {
                 let i = luckyNumbers.length - 1;
                 luckyNumbers[i] = luckyNumbers[i] +1
-            }, 1000);
+            }, 5000);
         }
         
         onMounted(() => {shuffleProjects()})
 
+        function getMyHeading() {
+            return "<h1>I am Heading Return by getMyHeading Function</h1>"
+        }
+
         return {
             luckyNumbers,
             projects,
+            getMyHeading,
+            randomSite
         }
     }
 
