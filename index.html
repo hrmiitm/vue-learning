@@ -2,65 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
 
     <div id="app">
-        <h1>{{message.toUpperCase()}}</h1>
-        Lucky Number : {{lucky_number}}
-
+        <p>Lucky Number: {{luckyNumber}}</p>
+        {{incrementLuckyNumber()}}
         <hr>
-        {{arr}}
-        <br>
-        {{userProfile}}
-
-        {{change_value()}}
     </div>
-
+    
 </body>
 <script>
-    const { createApp, ref, reactive } = Vue;
-    // Look at the object on the right (Vue), find the key named createApp, and assign its value to a new constant named createApp.
 
-    createApp({
+const { createApp, ref, reactive } = Vue;
 
-        setup() {
-            let lucky_number = 100
-            let message = "Hi How are you"
-            let arr = [1,2,3,4,5]
-            const userProfile = reactive({
-                username: 'JohnDoe',
-                email: 'john@example.com',
-                preferences: {
-                    theme: 'dark',
-                    notifications: true
-                }
-            });
+createApp({
 
-            function change_value() {
-                setTimeout( () => {
-                    lucky_number = lucky_number + 5;
-                    message.value = message.value + "9";
-                    arr.push(arr[arr.length-1]+1)
-                    userProfile.username = userProfile.username + "9"
-                    userProfile.preferences.theme = userProfile.preferences.theme + "9"
+    setup(){
 
-                },20000)
-            }
+        let luckyNumber = reactive([25]);
 
-            return {
-                message,
-                lucky_number,
-                change_value,
-                arr,
-                userProfile
-            }
+        function incrementLuckyNumber(){
+            setTimeout(() => {luckyNumber[0] = luckyNumber[0]+1}, 1000);
         }
+        
 
-    }).mount("#app")
+        return {
+            luckyNumber,
+            incrementLuckyNumber
+        }
+    }
+
+}).mount("#app")
 
 </script>
 </html>
