@@ -9,30 +9,60 @@
 <body>
 
     <div id="app">
-        <p>Lucky Number: {{luckyNumber}}</p>
-        {{incrementLuckyNumber()}}
+        <h1>On First</h1>
+        <p v-once>{{ luckyNumbers }}</p>
+        <p v-once>{{ projects }}</p>
         <hr>
+
+        <hr>
+        <ul>
+            <h1>Lucky Number: {{luckyNumbers[luckyNumbers.length-1]}}</h1>
+            <li v-for="(p,i) in projects" :key="p.name">
+                <span>{{i}}</span>
+                {{ p.name }} 
+                Review: <input type="text">
+                <ul>
+                    <li v-for="(v,k) in p">{{k}} ---> {{v}}</li>
+                </ul>
+            </li>
+        </ul>
+
     </div>
     
 </body>
 <script>
 
-const { createApp, ref, reactive } = Vue;
+const { createApp, ref, reactive, onMounted } = Vue;
 
 createApp({
 
     setup(){
 
-        let luckyNumber = reactive([25]);
+        let luckyNumbers = reactive([1,40,23,5,34,2,3]);
+        let projects = reactive([
+            {name: "ProjectA", author: "HRM"},
+            {name: "Vue Js Library", author: "Manish"},
+            {name: "Movie Theater", author: "Sagnik"},
+            {name: "Drone Driver", author: "Vivek"},
+            {name: "Maggie Maker", author: "Prins"},
+        ])
 
-        function incrementLuckyNumber(){
-            setTimeout(() => {luckyNumber[0] = luckyNumber[0]+1}, 1000);
+        function shuffleProjects() {
+            setInterval(() => {
+                projects.sort(() => Math.random() - 0.5)
+            }, 5000);
+
+            setInterval(() => {
+                let i = luckyNumbers.length - 1;
+                luckyNumbers[i] = luckyNumbers[i] +1
+            }, 1000);
         }
         
+        onMounted(() => {shuffleProjects()})
 
         return {
-            luckyNumber,
-            incrementLuckyNumber
+            luckyNumbers,
+            projects,
         }
     }
 
